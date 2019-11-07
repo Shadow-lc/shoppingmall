@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <package name="goods" extends="json-default">
+        <action name="queryCommodity" class="com.yisen.shoppingmall.showgoods.goods.web.GoodsAction" method="querySome">
+            <result name="query_success" type="json">
+                <param name="root">goodsPage</param>
+            </result>
+        </action>
+    </package>
+</struts>

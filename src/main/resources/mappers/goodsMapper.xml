@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper>
+    <insert id="addGoods" parameterType="goods">
+        insert into goods values (null,#{goods_no},#{goods_name},#{goods_typeNo},#{goods_desc},#{goods_img},#{goods_price},#{goods_qty},#{goods_discount})
+    </insert>
+    <update id="updateGoods" parameterType="goods">
+        update goods set goods_no=#{goods_no},goods_name=#{goods_name},goods_typeNo=#{goods_typeNo},
+        goods_desc=#{goods_desc},goods_img=#{goods_img},goods_price=#{goods_price},goods_qty=#{goods_qty},
+        goods_qty=#{goods_qty},goods_discount=#{goods_discount} where goods_id = #{goods_id}
+    </update>
+    <resultMap id="rMap_goods" type="goods">
+    <id column="goods_id" property="goods_id"/>
+    <result column="goods_no" property="goods_no"/>
+    <result column="goods_name" property="goods_name"/>
+    <result column="goods_typeNo" property="goods_typeNo"/>
+    <result column="goods_desc" property="goods_desc"/>
+    <result column="goods_img" property="goods_img"/>
+    <result column="goods_price" property="goods_price"/>
+    <result column="goods_qty" property="goods_qty"/>
+    <association property="goods_discount" javaType="goodstype">
+        <id column="goodstype_id" property="goodstype_id"/>
+        <result column="goodstype_no" property="goodstype_no"/>
+        <result column="goodstype_name" property="goodstype_name"/>
+        <result column="goodstype_parentType" property="goodstype_parentType"/>
+        <result column="goodstype_des" property="goodstype_des"/>
+        <result column="goodstype_img" property="goodstype_img"/>
+    </association>
+        <association property="pic" javaType="goodstype">
+            <id column="id" property="id"/>
+            <result column="goodspic" property="goodspic"/>
+            <result column="goodsid" property="goodsid"/>
+            <result column="adddate" property="adddate"/>
+        </association>
+    </resultMap>
+    <select id="querySome" parameterType="goodsVo" resultMap="rMap_goods">
+        select g.goods_id,g.goods_no,g.goods_name,g.goods_typeNo,g.goods_desc,g.goods_img,g.goods_price,g.goods_qty,
+                gt.goodstype_id,gt.goodstype_des,gt.goodstype_img,gt.goodstype_name,gt.goodstype_no,gt.goodstype_parentType
+                gp.id,gp.goodspic,gp.goodsid,gp.adddate
+         from goods g left join goodstype gt on gt.goodstype_no=g.goods_typeNo
+         left join goodspic gp on gp.goodsid=g.goods_id
+        <where>
+            <if test="name!=null and name!=''">
+                and goods_name =#{name}
+            </if>
+            <if test="typeno!=null">
+                and goods_typeNo =#{goods_typeNo}
+            </if>
+        </where>
+
+    </select>
+    <delete id="delGoods" parameterType="int">
+        delete from goods where goods_id=#{id}
+    </delete>
+</mapper>
