@@ -61,10 +61,10 @@
         update category set title=#{title} pid=#{pid} where id=#{id}
     </update>
 
-    <select id="queryCa"  resultType="list">
+    <select id="queryCa"  resultType="category">
         select * from category;
     </select>
-    <select id="queryChildren" resultType="list">
+    <select id="queryChildren" resultType="category">
         select * from category where pid=#{pid}
     </select>
 </mapper>
