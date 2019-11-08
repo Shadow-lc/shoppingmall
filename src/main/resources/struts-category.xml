@@ -15,6 +15,5 @@
 				<param name="root">categories</param>
 			</result>
 		</action>
-		<action name=""
 	</package>
 </struts>

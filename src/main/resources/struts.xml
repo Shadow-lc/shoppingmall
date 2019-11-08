@@ -6,4 +6,6 @@
 <struts>
 	<include file="struts-goods.xml"/>
 	<include file="struts-category.xml"/>
+	<include file="struts-member.xml"/>
+	<include file="struts-yzm.xml"/>
 </struts>

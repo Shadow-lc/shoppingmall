@@ -7,9 +7,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.Reader;
 
-/**
- * Created by Mr.Lu on 2019/10/16.
- */
 public class Factory {
     private static SqlSessionFactory factory;
     private Factory() {}

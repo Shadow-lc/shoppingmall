@@ -12,6 +12,7 @@ public class Goods {
     private double goods_price;
     private Integer goods_qty;
     private double goods_discount;
+    private double discountPrice;
     private GoodsPic goodspic;
     private Category ca;
 
@@ -77,7 +78,13 @@ public class Goods {
         this.goods_desc = goods_desc;
     }
 
+    public double getDiscountPrice() {
+        return discountPrice;
+    }
 
+    public void setDiscountPrice(double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
 
     public double getGoods_price() {
         return goods_price;

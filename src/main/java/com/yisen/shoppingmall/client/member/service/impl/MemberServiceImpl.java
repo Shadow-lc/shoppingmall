@@ -6,9 +6,6 @@ import com.yisen.shoppingmall.client.member.service.MemberService;
 import com.yisen.shoppingmall.commons.factory.Factory;
 import org.apache.ibatis.session.SqlSession;
 
-/**
- * Created by Mr.Lu on 2019/11/8.
- */
 public class MemberServiceImpl implements MemberService {
     private SqlSession session;
 
