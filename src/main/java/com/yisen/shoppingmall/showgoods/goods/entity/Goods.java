@@ -24,8 +24,6 @@ public class Goods {
         this.ca = ca;
     }
 
-
-
     public GoodsPic getGoodspic() {
         return goodspic;
     }
@@ -33,10 +31,6 @@ public class Goods {
     public void setGoodspic(GoodsPic goodspic) {
         this.goodspic = goodspic;
     }
-
-
-
-
 
     public Integer getGoods_id() {
         return goods_id;
