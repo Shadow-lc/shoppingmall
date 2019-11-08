@@ -23,7 +23,7 @@
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
             <legend>添加目录</legend>
         </fieldset>
-        <form class="form-horizontal" role="form" id="myForm" onsubmit="return sub()" action="javascript:;">
+        <form class="form-horizontal" role="form" id="myForm" onsubmit="return sub()" action="addCategory.action">
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label" >目录名:</label>
                 <div class="col-sm-10">
@@ -74,60 +74,37 @@
             layui.use(['tree', 'util'], function() {
                 var tree = layui.tree
                     , layer = layui.layer
-                    , util = layui.util
-                    //模拟数据
-                    , data = [{
-                        title: '图书影像',
-                        id: 1,
-                        filed: 'name1',
-                        children: [{
-                            title: '外语',
-                            id: 101,
-                            filed: 'wy',
-                        }, {
-                            title: '教材',
-                            id: 102,
-                            filed: 'jc',
-                        }]
-                    }, {
-                        title: '时尚生活',
-                        id: 2,
-                        filed: 'name2',
-                        children: [{
-                            title: '护肤',
-                            id: 201,
-                            filed: 'hf',
-                        }, {
-                            title: '首饰',
-                            id: 202,
-                            filed: 'sh',
-                        }]
-                    }, {
-                        title: '数码产品',
-                        id: 3,
-                        filed: 'name3',
-                        children: [{
-                            title: 'mp3',
-                            id: 301,
-                            filed: 'mp',
-                        }, {
-                            title: '电脑',
-                            id: 302,
-                            filed: 'dn',
-                        }]
-                    }];
-
+                    , util = layui.util;
+                //模拟数据
                 tree.render({
                     elem: '#test'
-                    ,data: data
-                    ,showCheckbox: true  //是否显示复选框
-                    ,id: 'demoId1'
-                    ,accordion: true
-                    ,showLine: true
-                    ,edit: ['update', 'del']
+                    , data: queryAllCategory()
+                    //, showCheckbox: true  //是否显示复选框
+                    , id: 'demoId1'
+                    , showLine: true
+                    , edit: ['update', 'del']
+                });
+            });
+                $(function () {
+                    queryParentCategory();
                 });
 
-            });
+                function queryAllCategory() {
+                    $.post("queryAllCategory.action","",function(msg){
+                        return msg;
+                    },"json");
+                }
+
+
+                function queryParentCategory() {
+                    $.post("queryParentCategory.action", "", function (msg) {
+                        let html = "";
+                        $.each(msg, function (i, p) {
+                            html += `<option value="${p.id}">p.title</option>`;
+                        });
+                        $("#category").html(html);
+                    }, "json");
+                }
 
             function sub(){
                 let val = $("#category").val();
