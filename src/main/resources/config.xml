@@ -27,7 +27,7 @@
     </environments>
     <mappers>
         <mapper resource="mappers/goodsMapper.xml"></mapper>
-
+        <mapper resource="mappers/MemberMapper.xml"/>
     </mappers>
 
 </configuration>

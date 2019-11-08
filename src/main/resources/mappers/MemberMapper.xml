@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper>
+    <insert id="addMember" parameterType="member">
+/*
+ private String email;
+    private String nick;
+    private String password;
+    private String credit;
+    private int layerid;
+    private String rDatetime;
+    private MemberLayer layer;
+        private int id;
+    private String layer;
+    private String minCredit;
+    private String creditScale;
+*/
+        insert into member  values (null,#{email},#{nick},md5(#{password}),'0','1',#{rDatetime});
+    </insert>
+    <select id="queryNameandPass" parameterType="string" resultType="list">
+        select * from member where nick=#{nick} and password=#{password}
+    </select>
+    <update id="updateMember" parameterType="member">
+        update member set nick=#{nick},password=#{password} where id=#{id}
+    </update>
+    <resultMap id="m_resultMap" type="member">
+        <id column="id" property="id" />
+        <result column="email" property="email" />
+        <result column="nick" property="nick" />
+        <result column="password" property="password" />
+        <result column="credit" property="credit" />
+        <result column="layerid" property="layerid" />
+        <result column="rDatetime" property="rDatetime" />
+       <association property="layer" javaType="MemberLayer">
+           <id column="mlid" property="id" />
+           <result column="layer" property="layer" />
+           <result column="minCredit" property="minCredit" />
+           <result column="creditScale" property="creditScale" />
+       </association>
+    </resultMap>
+    <select id="queryUserInfo" resultMap="m_resultMap">
+        select m.id,m.email,m.nick,m.nick,m.password,m.credit,m.layerid,m.rDatetime,
+        ml.id,ml.layer,ml.minCredit,ml.creditScale
+        from member m left join memberlayer ml on m.layerid=ml.id
+    </select>
+
+    <update id="addcredit" parameterType="member">
+        update member set credit= sum (credit+#{create}) where id=#{id}
+    </update>
+    
+    <update id="upgrade" parameterType="member">
+        update member set layerid=#{layerid} where id=#{id}
+    </update>
+    
+</mapper>
