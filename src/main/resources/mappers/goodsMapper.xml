@@ -64,4 +64,7 @@
     <select id="queryCa"  resultType="list">
         select * from category;
     </select>
+    <select id="queryChildren" resultType="list">
+        select * from category where pid=#{pid}
+    </select>
 </mapper>

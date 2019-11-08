@@ -23,4 +23,6 @@ public interface GoodsMapper {
     int updateCa(Category ca);
 
     List<Category> queryCa();
+
+    List<Category> queryChildren(@Param("pid") int pid);
 }
