@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper>
+<mapper namespace="com.yisen.shoppingmall.client.member.mapper.MemberMapper">
     <insert id="addMember" parameterType="member">
         insert into member  values (null,#{email},#{nick},md5(#{password}),'0','1',#{rDatetime});
     </insert>
