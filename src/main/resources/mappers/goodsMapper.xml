@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yisen.shoppingmall.showgoods.goods.mapper.GoodsMapper">
-    <insert id="addGoods" parameterType="goods">
-        insert into goods values (null,#{goods_no},#{goods_name},#{goods_typeNo},#{goods_desc},#{goods_img},#{goods_price},#{goods_qty},#{goods_discount})
+    <insert id="addGoods" parameterType="goods" useGeneratedKeys="true" keyProperty="goods_id">
+       <!-- <selectKey keyProperty="id" resultType="int" order="AFTER">
+              select  last_insert_id()
+        </selectKey>-->
+        insert into goods values (#{goods_id},#{goods_no},#{goods_name},#{goods_typeNo},#{goods_desc},#{goods_img},#{goods_price},#{goods_qty},#{goods_discount})
     </insert>
     <update id="updateGoods" parameterType="goods">
         update goods set goods_no=#{goods_no},goods_name=#{goods_name},goods_typeNo=#{goods_typeNo},
-        goods_desc=#{goods_desc},goods_img=#{goods_img},goods_price=#{goods_price},goods_qty=#{goods_qty},
+        goods_desc=#{goods_desc},goods_price=#{goods_price},goods_qty=#{goods_qty},
         goods_qty=#{goods_qty},goods_discount=#{goods_discount} where goods_id = #{goods_id}
     </update>
     <resultMap id="rMap_goods" type="goods">
@@ -15,13 +18,13 @@
         <result column="goods_name" property="goods_name"></result>
         <result column="goods_typeNo" property="goods_typeNo"></result>
         <result column="goods_desc" property="goods_desc"></result>
-        <result column="goods_pic" property="goods_pic"></result>
         <result column="goods_price" property="goods_price"></result>
         <result column="goods_qty" property="goods_qty"></result>
         <association property="ca" javaType="category">
             <id column="caid" property="id" />
             <result column="title" property="title" />
             <result column="pid" property="pid"  />
+            <result column="introduce" property="introduce" />
         </association>
         <association property="pic" javaType="goodstype">
             <id column="picid" property="id"></id>
@@ -32,8 +35,8 @@
         </association>
     </resultMap>
     <select id="queryAll" parameterType="goodsVo" resultMap="rMap_goods">
-        select g.goods_id,g.goods_no,g.goods_name,g.goods_typeNo,g.goods_desc,g.goods_img,g.goods_price,g.goods_qty,
-        ca.id as caid ,ca.title,ca.pid,
+        select g.goods_id,g.goods_no,g.goods_name,g.goods_typeNo,g.goods_desc,g.goods_price,g.goods_qty,
+        ca.id as caid ,ca.title,ca.pid,ca.introduce,
         gp.id as picid,gp.goodspic,gp.goodsid,gp.adddate,gp.fm
         from goods g left join category ca  on gt.goodstype_parentType=g.goods_typeNo
         left join goodspic gp on gp.goodsid=g.goods_id
@@ -55,14 +58,16 @@
         delete from goods where goods_id=#{id}
     </delete>
     <insert id="addCa" parameterType="category">
-        insert  into category values (null,#{title},#{pid})
+        insert  into category values (null,#{title},#{pid},#{introduce},#{introduce})
     </insert>
+
     <update id="updateCa" keyProperty="category">
-        update category set title=#{title} pid=#{pid} where id=#{id}
+        update category set title=#{title} pid=#{pid},introduce=#{introduce} introduce=#{introduce} where id=#{id}
     </update>
 
+
     <select id="queryCa"  resultType="category">
-        select * from category;
+        select * from category
     </select>
     <select id="queryChildren" resultType="category">
         select * from category where pid=#{pid}

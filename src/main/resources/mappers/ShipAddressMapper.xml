@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yisen.shoppingmall.client.shipaddress.mapper.ShipAddressMapper">
+
+    <!--
+      private int id;
+    private int memberId;
+    private String realname;
+    private int areaId;
+    private String adress;
+    private String zipcode;
+    private String telno;
+    private  String isDefault;
+    private ShipArea shipArea;
+
+     private int id;
+    private String area;
+    private  String cost;
+    -->
+    <resultMap id="address_resultMap" type="member">
+        <id column="said" property="id" />
+        <result column="memberId" property="memberId" />
+        <result column="realname" property="realname" />
+        <result column="areaId" property="areaId" />
+        <result column="adress" property="adress" />
+        <result column="zipcode" property="zipcode" />
+        <result column="telno" property="telno" />
+        <result column="isDefault" property="isDefault" />
+        <association property="shipArea" javaType="shiparea">
+            <id column="areaid" property="id" />
+            <result column="area" property="area" />
+            <result column="cost" property="cost" />
+        </association>
+        <association property="member" javaType="member">
+            <id column="mid" property="id" />
+            <result column="email" property="email" />
+            <result column="nick" property="nick" />
+            <result column="password" property="password" />
+            <result column="credit" property="credit" />
+            <result column="layerid" property="layerid" />
+            <result column="rDatetime" property="rDatetime" />
+        </association>
+    </resultMap>
+    <select id="querySomeAddress" resultMap="address_resultMap" >
+        select sa.id as said,sa.memberId,sa.realname,sa.areaId,sa.adress,sa.zipcode,sa.telno,sa.isDefault,
+        sh.id as areaid,sh.area,sh.cost,m.id,m.email,m.nick,m.password,m.credit,m.layerid,m.rDatetime
+         from shipaddress sa left join shiparea sh on sa.areaId=sh.id left join member m on sa.memberid=m.id
+    </select>
+
+
+
+</mapper>

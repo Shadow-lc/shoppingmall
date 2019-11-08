@@ -7,6 +7,15 @@ public class Category {
     private String title;
     private int pid;
     private List<Category> children;
+    private String introduce;
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
 
     public List<Category> getChildren() {
         return children;

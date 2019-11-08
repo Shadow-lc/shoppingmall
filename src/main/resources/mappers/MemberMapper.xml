@@ -4,12 +4,18 @@
     <insert id="addMember" parameterType="member">
         insert into member  values (null,#{email},#{nick},md5(#{password}),'0','1',#{rDatetime});
     </insert>
-    <select id="queryNameandPass" parameterType="string" resultType="member">
-        select * from member where nick=#{nick} and password=#{password}
+    <select id="queryNameandPass" parameterType="string" resultMap="m_resultMap">
+       select m.id,m.email,m.nick,m.nick,m.password,m.credit,m.layerid,m.rDatetime,
+        ml.id,ml.layer,ml.minCredit,ml.creditScale
+        from member m left join memberlayer ml on m.layerid=ml.id
+         where nick=#{nick} and password=#{password}
     </select>
     <update id="updateMember" parameterType="member">
         update member set nick=#{nick},password=#{password} where id=#{id}
     </update>
+    <select id="queryNick" parameterType="string">
+        select count(*) from member where nick=#{nick}
+    </select>
     <resultMap id="m_resultMap" type="member">
         <id column="id" property="id" />
         <result column="email" property="email" />
@@ -29,6 +35,14 @@
         select m.id,m.email,m.nick,m.nick,m.password,m.credit,m.layerid,m.rDatetime,
         ml.id,ml.layer,ml.minCredit,ml.creditScale
         from member m left join memberlayer ml on m.layerid=ml.id
+        <where>
+            <if test="startDate!=null and startDate!=''">
+                and rDatetime &gt; #{startDate}
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                and rDatetime &lt; #{endDate}
+            </if>
+        </where>
     </select>
 
     <update id="addcredit" parameterType="member">

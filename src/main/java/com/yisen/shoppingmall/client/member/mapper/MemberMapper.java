@@ -11,7 +11,10 @@ public interface MemberMapper {
     int updateMember(Member member);
     List<Member> queryUserInfo();
     Member queryMemberById(@Param("id") String id);
+
+    int queryNick(@Param("nick") String nick);
     //当用户的积分达到一个额度时，自动提升等级
     int addcredit(Member member);
     int  upgrade(Member member);
+
 }

@@ -9,7 +9,6 @@ public class Goods {
     private  String goods_name;
     private  int goods_typeNo;//typeid
     private  String goods_desc;
-    private  int goods_pic;
     private double goods_price;
     private Integer goods_qty;
     private double goods_discount;
@@ -24,13 +23,7 @@ public class Goods {
         this.ca = ca;
     }
 
-    public int getGoods_pic() {
-        return goods_pic;
-    }
 
-    public void setGoods_pic(int goods_pic) {
-        this.goods_pic = goods_pic;
-    }
 
     public GoodsPic getGoodspic() {
         return goodspic;
