@@ -5,6 +5,15 @@ public class GoodsPic {
     private String goodspic;
     private int goodsid;
     private String adddate;
+    private  String fm;
+
+    public String getFm() {
+        return fm;
+    }
+
+    public void setFm(String fm) {
+        this.fm = fm;
+    }
 
     public int getId() {
         return id;
