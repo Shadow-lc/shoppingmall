@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            input[type=checkbox]{
+                width: 20px;
+                height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <table id="tb">
+
+        </table>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" action="javascript:;" role="form" id="MyForm" method="post">
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label" >商品名称:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="goods.goods_name" class="form-control"
+                                           id="name" autocomplete="off"
+                                           style="width: 100%">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="describe" class="col-sm-2 control-label" >商品描述:</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="describe" id="describe" cols="10" rows="10" style="resize:none;width: 600px;height: 110px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="marketprice" class="col-sm-2 control-label" >市 场 价:</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" name="marketprice" class="form-control"
+                                           id="marketprice" autocomplete="off" required
+                                           style="width: 600px">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stock" class="col-sm-2 control-label" >库 存 量:</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" name="stock" class="form-control"
+                                           id="stock" autocomplete="off" required
+                                           style="width: 600px">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stock" class="col-sm-2 control-label" >折 扣 价:</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" name="discount" class="form-control"
+                                           id="discount" autocomplete="off" required
+                                           style="width: 600px">
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" id="login" role="progressbar"  aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="form-group">
+                                <lable class="col-sm-offset-2"><input class="col-sm-offset-2" type="file" name="pic" id="add_pic"></lable>
+                                <button type="button" id="add" class="btn btn-primary col-sm-offset-2" onclick="addpic()">添加图片</button>
+                            </div>
+
+                            <div class="row" id="pics">
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="resetname()">重置</button>
+                        <button type="button" class="btn btn-primary" onclick="update()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-table.min.js"></script>
+    <script src="../js/bootstrap-table-zh-CN.js"></script>
+    <script src="../js/bootstrap-editable.js"></script>
+    <script src="../js/bootstrap-table-editable.js"></script>
+    <script src="../js/ajaxfileupload.js"></script>
+    <script>
+
+        $(function(){
+            queryData();
+        });
+
+        function query() {
+            //数据必须刷新一次才可以重新给表格赋值，必须将pageNumber传过去，为保证不会出现在在后几页出现搜索异常
+            $('#tb').bootstrapTable('destroy');
+            queryData();
+        }
+
+        function queryData(){
+            $("#tb").bootstrapTable({
+                url:'queryCommodity.action',  //发送请求的地址
+                pagination:true, //是否分页  默认不分页
+                pageNumber:1,
+                pageSize:5,
+                pageList: [3,4,5,10], //可以切换每页显示的记录数
+                sidePagination: 'server', //默认是client  客户端分页  假分页  按需求显示
+                queryParamsType: 'undefined',
+                striped:true,//隔行换色
+
+                queryParams:function(params){
+                    start = (params.pageNumber-1)*params.pageSize;
+                    return params;
+                },
+                columns:[
+                    {
+                        checkbox:true,
+                    },{
+                        title:'序号',
+                        field:'id',
+                        formatter:function (value,row,index) {
+                            console.log(start);
+                            return start + 1 + index;
+                        },
+                    },{
+                        title:'商品图片',
+                        field:'goodspic.goodspic',
+                        formatter:function(value,row,index){
+                            value = `<img src="${row.savepath}" alt="404图片有自己的想法" style="width: 50px;height: 40px;">`;
+                            return value;
+                        }
+                    }, {
+                        title:'商品名称',
+                        field:'goods_name',
+                    },{
+                        title:'市场价',
+                        field:'goods_price',
+                    },{
+                        title:'会员价',
+                        field:'discountprice'
+                    },{
+                        title:'库存量',
+                        field:'goods_qty',
+                    },{
+                        title:'商品类别',
+                        field:'ca.goodstype_name'
+                    },{
+                        title:'库存量',
+                        field:'category.name'
+                    },{
+                        title:'操作',
+                        formatter:function(value,row,index){
+                            let info = `<button class="btn btn-primary" id="info">修改</a>`;
+                            let del =  `<button class="btn btn-danger" id="del">删除</a>`;
+                            return info + " " + del
+                        },
+                        events:etevents
+                    }],
+                })
+            }
+        window.etevents = {
+            'click #info':function(event,value,row,index){
+                $("#myModal").modal("show");
+            },
+            'click #del':function(event,value,row,index){
+                $.post('delCommodity.action',//url
+                    "id="+row.id,
+                    msg => {
+                        if(msg==='suc'){
+                            query();
+                        }
+                    },
+                    "json"
+                );
+            }
+        }
+    </script>
+    </body>
+</html>
