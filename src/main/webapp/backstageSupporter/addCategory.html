@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+        <title>添加书籍类别</title>
+        <link rel="shortcut icon" href="../img/etoak_logo.png">
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../layui/css/layui.css">
+
+    </head>
+        <body>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+            <legend>现有类别目录</legend>
+        </fieldset>
+        <!--展示现有目录-->
+        <div id="test" class="demo-tree demo-tree-box" style="margin-left: 50px;font-size: 16px;"></div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+            <legend>添加目录</legend>
+        </fieldset>
+        <form class="form-horizontal" role="form" id="myForm" onsubmit="return sub()" action="javascript:;">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label" >目录名:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="name" required class="form-control"
+                           id="name" autocomplete="off"
+                           placeholder="请输入目录名" style="width: 600px">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="category" class="col-sm-2 control-label" >父目录:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" required name="category" id="category" style="width: 600px;">
+                        <option value="-1">请选择父目录</option>
+                        <option value="1">图书影像</option>
+                        <option value="2">时尚生活</option>
+                        <option value="3">数码产品</option>
+                        <option value="4">鲜花速递</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="describe" class="col-sm-2 control-label" >目录描述:</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="describe" id="describe" cols="10" rows="10" style="resize:none;width: 600px;height: 110px;"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label" >目录图片:</label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control" name="pic" class="form-control"
+                           id="pic" autocomplete="off" required
+                           placeholder="请选择目录图片" style="width: 600px">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <button type="reset" class="btn btn-warning ">重置</button>
+                    <button type="submit" class="btn btn-success ">添加</button>
+                </div>
+            </div>
+        </form>
+        <!-- 全局js -->
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../layui/layui.js"></script>
+        <script>
+            layui.use(['tree', 'util'], function() {
+                var tree = layui.tree
+                    , layer = layui.layer
+                    , util = layui.util
+                    //模拟数据
+                    , data = [{
+                        title: '图书影像',
+                        id: 1,
+                        filed: 'name1',
+                        children: [{
+                            title: '外语',
+                            id: 101,
+                            filed: 'wy',
+                        }, {
+                            title: '教材',
+                            id: 102,
+                            filed: 'jc',
+                        }]
+                    }, {
+                        title: '时尚生活',
+                        id: 2,
+                        filed: 'name2',
+                        children: [{
+                            title: '护肤',
+                            id: 201,
+                            filed: 'hf',
+                        }, {
+                            title: '首饰',
+                            id: 202,
+                            filed: 'sh',
+                        }]
+                    }, {
+                        title: '数码产品',
+                        id: 3,
+                        filed: 'name3',
+                        children: [{
+                            title: 'mp3',
+                            id: 301,
+                            filed: 'mp',
+                        }, {
+                            title: '电脑',
+                            id: 302,
+                            filed: 'dn',
+                        }]
+                    }];
+
+                tree.render({
+                    elem: '#test'
+                    ,data: data
+                    ,showCheckbox: true  //是否显示复选框
+                    ,id: 'demoId1'
+                    ,accordion: true
+                    ,showLine: true
+                    ,edit: ['update', 'del']
+                });
+
+            });
+
+            function sub(){
+                let val = $("#category").val();
+                if(val === '-1'){
+                    alert("请选择父目录");
+                    return false;
+                }
+
+                let text = $.trim($("#describe").val());
+                if(text === "" || text.length === 0){
+                    alert("请填写对此类别的描述");
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </body>
+
+</html>

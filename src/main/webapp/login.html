@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登录页面</title>
+
+	<link rel="stylesheet" href="css/Login.css" />
+	<link rel="stylesheet" href="css/set_4.css">
+</head>
+
+<body>
+	<div id="login_frame">
+
+		<p id="image_logo">
+			<img src="img/logo.jpg" width="200px">
+		</p>
+
+		<form method="post" id="myForm">
+			<input type="hidden" name="method" value="login">
+			<p>
+				<label class="label_input"> 用户名 </label> 
+				<input type="text" id="username" name="name" class="text_field" autocomplete="off" placeholder="请输入用户名" autofocus/>
+			</p>
+			<p>
+				<label class="label_input">密码</label>
+				<input type="password"
+					id="password" name="password" class="text_field" placeholder="请输入用户密码" required="required"/>
+			</p>
+			<p>
+				<label class="label_input">验证码</label>
+				<img src="yzm.action" alt="404" title="看不清？点我换一张" id="yzm" class="yzm" onclick="flash()" style="width: 117px;height: 33px;">
+				<input type="text" placeholder="请填写验证码" name="yzm" id="yzmtext" autocomplete="off" class="text_field" style="width: 155px">
+			</p>
+			<div id="login_control">
+				<div class="set_4_button1 raised hoverable"  onclick="sub2()">
+					<div class="anim"></div>
+					<span>登录</span>
+				</div>
+				<div class="set_4_button1 raised hoverable" onclick="reg()">
+					<div class="anim"></div>
+					<span>注册</span>
+				</div>
+				<a id="forget_pwd" href="forget_pwd.html">忘记密码？</a>
+			</div>
+		</form>
+	</div>
+	<script src="js/jquery.min.js"></script>
+	<script>
+		function sub2(){
+		    let name = $("#username").val();
+		    if(name === null || $.trim(name).length === 0){
+		        alert("请填写用户名");
+		        return;
+			}
+		    let pass = $("#password").val();
+		    if(pass === null || $.trim(pass).length === 0){
+		        alert("请填写用户密码");
+		        return;
+			}
+		    let yzm = $("#yzmtext").val();
+            if(yzm === null || $.trim(yzm).length === 0){
+                alert("请填写验证码");
+                return;
+            }
+		   $.post('login.action',$("#myForm").serialize(),msg=>{
+		       		if(msg === 'suc'){
+                        window.location.href="/index.html";
+					}else{
+		       		    alert(msg);
+                        flash();
+		       		    $("#username").focus();
+		       		    $("#yzmtext").val("");
+					}
+			   },
+			'json');
+		}
+		function reg(){
+		    window.location.href="/register.html";
+		}
+
+		function flash(){
+		    $("#yzm").prop("src","/yzm.action?"+Math.random());
+		}
+
+	</script>
+</body>
+</html>

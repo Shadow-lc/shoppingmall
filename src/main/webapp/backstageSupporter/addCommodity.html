@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{
+            margin-top: 50px;
+        }
+        input[name=fm]{
+            width: 20px;
+            height: 30px;
+        }
+    </style>
+</head>
+    <body>
+    <form class="form-horizontal" role="form" action="addBook.action" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label" >书名:</label>
+            <div class="col-sm-10">
+                <input type="text" name="book.name" class="form-control"
+                       id="name" autocomplete="off"
+                       placeholder="请输入书名" style="width: 600px">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="author" class="col-sm-2 control-label" >作者:</label>
+            <div class="col-sm-10">
+                <input type="text" name="book.author" class="form-control"
+                       id="author" autocomplete="off"
+                       placeholder="请输入作者姓名" style="width: 600px">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="price" class="col-sm-2 control-label" >价格:</label>
+            <div class="col-sm-10">
+                <input type="number" name="book.price" class="form-control"
+                       id="price" autocomplete="off"
+                       placeholder="请输入书籍价格" onkeyup="this.value=this.value.replace(/[^0-9]+/g,'')" style="width: 600px" min="0">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="publishdate" class="col-sm-2 control-label" >出版日期:</label>
+            <div class="col-sm-10">
+                <input type="date" name="book.publishdate" class="form-control"
+                       id="publishdate" autocomplete="off" style="width: 600px">
+            </div>
+        </div>
+        <!--数量-->
+        <div class="form-group">
+            <label for="sl" class="col-sm-2 control-label" >数量:</label>
+            <div class="col-sm-10">
+                <input type="number" name="book.sl" class="form-control"
+                       id="sl" autocomplete="off" style="width: 600px"
+                       onkeyup="this.value=this.value.replace(/[^0-9]+/g,'')">
+            </div>
+        </div>
+        <!--类别id-->
+        <div class="form-group">
+            <label for="categoryid" class="col-sm-2 control-label" >类别：</label>
+            <div class="col-sm-10">
+                <select name="book.categoryid" class="form-control" id="categoryid" style="width: 600px"></select>
+            </div>
+        </div>
+        <!--供应商id-->
+        <div class="form-group">
+            <label for="gysid" class="col-sm-2 control-label" >供应商：</label>
+            <div class="col-sm-10">
+                <select name="book.gysid" class="form-control" id="gysid" style="width: 600px"></select>
+            </div>
+        </div>
+        <!--状态-->
+        <div class="form-group">
+            <label for="status" class="col-sm-2 control-label">状态：</label>
+            <div class="col-sm-10">
+                <select name="book.status" class="form-control" id="status" style="width: 600px">
+                    <option value="0">下架</option>
+                    <option value="1">上架</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary col-sm-offset-2" onclick="addpic()">添加图片</button>
+        </div>
+
+        <div id="pics">
+
+        </div>
+
+        <!--添加-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" onclick="sub()" class="btn btn-success btn-lg">添加</button>
+            </div>
+        </div>
+    </form>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        let i = 1;
+        function addpic(){
+            $("#pics").append("<div class='form-group'>" +
+                "<label for='pics' class='col-sm-2 control-label'>请选择：</label>" +
+                "<div class='col-sm-4'>" +
+                "<input type='file' name='pic'>" +
+                " </div>" +
+                " <label for='pics' class='col-sm-2 control-label'>是否是封面：</label>" +
+                " <div class='col-sm-4'>" +
+                " <input type='radio' name='fm' "+(i===1?'checked':'')+" value='"+(i++)+"'>" +
+                "<button type='button' class='btn btn-warning' "+(i===1?'disabled':'')+" onclick='cancel(this)'>取消</button>" +
+                " </div>" +
+                " </div>");
+        }
+
+        $(function(){
+            queryAllCategory();
+            queryAllGys();
+        });
+
+        function queryAllCategory(){
+            let option = "<option>请选择类别</option>";
+
+            $.post('queryAllCa.action',//url
+                "",
+                msg=>{
+                    $.each(msg,function (i,p) {
+                        option += "<option value='"+p.id+"'>"+p.name+"</option>"
+                    });
+                    $("#categoryid").html(option);
+                },
+                "json"
+            );
+        }
+        function queryAllGys(){
+            let option = "<option>请选择供应商</option>"
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: 'queryAllGys.action',
+                data: "",
+                success:function (msg) {
+                    $.each(msg,function (i,p) {
+                        option += "<option value='"+p.id+"'>"+p.name+"</option>"
+                    });
+                    $("#gysid").html(option);
+                },
+                error:function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        function cancel(btn){
+            $(btn).parent().parent().remove();
+        }
+    </script>
+    </body>
+</html>
