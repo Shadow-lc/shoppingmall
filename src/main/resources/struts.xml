@@ -5,4 +5,5 @@
 
 <struts>
 	<include file="struts-goods.xml"/>
+	<include file="struts-category.xml"/>
 </struts>
