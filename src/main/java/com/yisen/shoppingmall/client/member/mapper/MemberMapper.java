@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface MemberMapper {
     int addMember(Member member);
-    List<Member> queryNameandPass(@Param("nick") String nick, @Param("password") String password);
+    Member queryNameandPass(@Param("nick") String nick, @Param("password") String password);
     int updateMember(Member member);
-    List<Member> queryUserInfo(@Param("id") int id);
+    List<Member> queryUserInfo();
+    Member queryMemberById(@Param("id") String id);
     //当用户的积分达到一个额度时，自动提升等级
     int addcredit(Member member);
     int  upgrade(Member member);

@@ -10,5 +10,11 @@
 				<param name="root">categories</param>
 			</result>
 		</action>
+		<action name="queryParent" class="com.yisen.shoppingmall.showgoods.goods.web.CategoryAction" method="queryParent">
+			<result name="queryParent_success" type="json">
+				<param name="root">categories</param>
+			</result>
+		</action>
+		<action name=""
 	</package>
 </struts>

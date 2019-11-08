@@ -33,4 +33,19 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
     }
+
+    @Override
+    public List<Category> queryParent() {
+        try {
+            GoodsMapper dao = session.getMapper(GoodsMapper.class);
+            return dao.queryChildren(-1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 }
