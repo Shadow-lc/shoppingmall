@@ -10,40 +10,38 @@
         goods_qty=#{goods_qty},goods_discount=#{goods_discount} where goods_id = #{goods_id}
     </update>
     <resultMap id="rMap_goods" type="goods">
-    <id column="goods_id" property="goods_id"/>
-    <result column="goods_no" property="goods_no"/>
-    <result column="goods_name" property="goods_name"/>
-    <result column="goods_typeNo" property="goods_typeNo"/>
-    <result column="goods_desc" property="goods_desc"/>
-    <result column="goods_img" property="goods_img"/>
-    <result column="goods_price" property="goods_price"/>
-    <result column="goods_qty" property="goods_qty"/>
-    <association property="goods_discount" javaType="goodstype">
-        <id column="goodstype_id" property="goodstype_id"/>
-        <result column="goodstype_no" property="goodstype_no"/>
-        <result column="goodstype_name" property="goodstype_name"/>
-        <result column="goodstype_parentType" property="goodstype_parentType"/>
-        <result column="goodstype_des" property="goodstype_des"/>
-        <result column="goodstype_img" property="goodstype_img"/>
-    </association>
+        <id column="goods_id" property="goods_id"></id>
+        <result column="goods_no" property="goods_no"></result>
+        <result column="goods_name" property="goods_name"></result>
+        <result column="goods_typeNo" property="goods_typeNo"></result>
+        <result column="goods_desc" property="goods_desc"></result>
+        <result column="goods_pic" property="goods_pic"></result>
+        <result column="goods_price" property="goods_price"></result>
+        <result column="goods_qty" property="goods_qty"></result>
+        <association property="ca" javaType="category">
+            <id column="caid" property="id" />
+            <result column="title" property="title" />
+            <result column="pid" property="pid"  />
+        </association>
         <association property="pic" javaType="goodstype">
-            <id column="id" property="id"/>
-            <result column="goodspic" property="goodspic"/>
-            <result column="goodsid" property="goodsid"/>
-            <result column="adddate" property="adddate"/>
+            <id column="picid" property="id"></id>
+            <result column="goodspic" property="goodspic"></result>
+            <result column="goodsid" property="goodsid"></result>
+            <result column="adddate" property="adddate"></result>
+            <result column="fm" property="fm"></result>
         </association>
     </resultMap>
-    <select id="querySome" parameterType="goodsVo" resultMap="rMap_goods">
+    <select id="queryAll" parameterType="goodsVo" resultMap="rMap_goods">
         select g.goods_id,g.goods_no,g.goods_name,g.goods_typeNo,g.goods_desc,g.goods_img,g.goods_price,g.goods_qty,
-                gt.goodstype_id,gt.goodstype_des,gt.goodstype_img,gt.goodstype_name,gt.goodstype_no,gt.goodstype_parentType
-                gp.id,gp.goodspic,gp.goodsid,gp.adddate
-         from goods g left join goodstype gt on gt.goodstype_no=g.goods_typeNo
-         left join goodspic gp on gp.goodsid=g.goods_id
+        ca.id as caid ,ca.title,ca.pid,
+        gp.id as picid,gp.goodspic,gp.goodsid,gp.adddate,gp.fm
+        from goods g left join category ca  on gt.goodstype_parentType=g.goods_typeNo
+        left join goodspic gp on gp.goodsid=g.goods_id
         <where>
             <if test="name!=null and name!=''">
                 and goods_name =#{name}
             </if>
-            <if test="typeno!=null">
+            <if test="typeno!=null and typeno!=''">
                 and goods_typeNo =#{goods_typeNo}
             </if>
         </where>
@@ -52,4 +50,18 @@
     <delete id="delGoods" parameterType="int">
         delete from goods where goods_id=#{id}
     </delete>
+
+    <delete id="delgoods" parameterType="int">
+        delete from goods where goods_id=#{id}
+    </delete>
+    <insert id="addCa" parameterType="category">
+        insert  into category values (null,#{title},#{pid})
+    </insert>
+    <update id="updateCa" keyProperty="category">
+        update category set title=#{title} pid=#{pid} where id=#{id}
+    </update>
+
+    <select id="queryCa"  resultType="list">
+        select * from category;
+    </select>
 </mapper>

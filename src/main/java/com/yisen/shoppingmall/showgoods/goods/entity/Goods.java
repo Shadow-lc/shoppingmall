@@ -1,33 +1,48 @@
 package com.yisen.shoppingmall.showgoods.goods.entity;
 
+import com.yisen.shoppingmall.showgoods.goods.entity.Category;
+import com.yisen.shoppingmall.showgoods.goods.entity.GoodsPic;
+
 public class Goods {
     private Integer goods_id;
-    private String goods_no;
-    private String goods_name;
-    private int goods_typeNo;//typeid
-    private String goods_desc;
-    private String goods_img;
+    private  String goods_no;
+    private  String goods_name;
+    private  int goods_typeNo;//typeid
+    private  String goods_desc;
+    private  int goods_pic;
     private double goods_price;
     private Integer goods_qty;
     private double goods_discount;
-    private GoodsPic pic;
-    private GoodsType goodstype;
+    private GoodsPic goodspic;
+    private Category ca;
 
-    public GoodsPic getPic() {
-        return pic;
+    public Category getCa() {
+        return ca;
     }
 
-    public void setPic(GoodsPic pic) {
-        this.pic = pic;
+    public void setCa(Category ca) {
+        this.ca = ca;
     }
 
-    public GoodsType getGoodstype() {
-        return goodstype;
+    public int getGoods_pic() {
+        return goods_pic;
     }
 
-    public void setGoodstype(GoodsType goodstype) {
-        this.goodstype = goodstype;
+    public void setGoods_pic(int goods_pic) {
+        this.goods_pic = goods_pic;
     }
+
+    public GoodsPic getGoodspic() {
+        return goodspic;
+    }
+
+    public void setGoodspic(GoodsPic goodspic) {
+        this.goodspic = goodspic;
+    }
+
+
+
+
 
     public Integer getGoods_id() {
         return goods_id;
@@ -69,13 +84,7 @@ public class Goods {
         this.goods_desc = goods_desc;
     }
 
-    public String getGoods_img() {
-        return goods_img;
-    }
 
-    public void setGoods_img(String goods_img) {
-        this.goods_img = goods_img;
-    }
 
     public double getGoods_price() {
         return goods_price;
