@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+body {
+    background-image: url("../img/BG.jpg");;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+h1 {
+	font-family: "方正静蕾简体";
+	font-size: 45px;
+}
+div {
+	width: 800px;
+	height: 650px;
+	margin: 0 auto;
+	border-radius: 15px;
+	box-shadow: 15px 15px 15px gray; 
+	text-align: center;
+}
+table {
+	width: 620px;
+	height: 500px;
+	font-size: 20px;
+	
+}
