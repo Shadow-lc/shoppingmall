@@ -125,11 +125,18 @@
             });
 
             function queryAllCategory() {
-
-                $.post("queryAllCategory.action","",function(msg){
-                    return msg;
-                },"json");
-
+                let data;
+                $.ajax({
+                    url : "queryAllCategory.action",
+                    type: "post",
+                    data: "",
+                    async: false,
+                    dataType:"json",
+                    success:function(msg) {
+                        data = msg;
+                    }
+                });
+                return data;
             }
 
             function reselect_ca(){
