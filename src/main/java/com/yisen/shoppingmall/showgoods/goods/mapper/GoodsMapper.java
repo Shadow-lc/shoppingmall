@@ -8,13 +8,13 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface GoodsMapper {
-    int addgoods(Goods goods);
+    int addGoods(Goods goods);
 
-    int updategoods(Goods goods);
+    int updateGoods(Goods goods);
 
-    List<Goods> queryAll(GoodsVo vo);
+    List<Goods> querySome(GoodsVo vo);
 
-    int delgoods(@Param("id") int id);
+    int delGoods(@Param("id") int id);
 
     int addCa(Category ca);
 
