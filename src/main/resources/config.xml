@@ -28,6 +28,7 @@
     <mappers>
         <mapper resource="mappers/goodsMapper.xml"/>
         <mapper resource="mappers/MemberMapper.xml"/>
+        <mapper resource="mappers/ShipAddressMapper.xml" />
     </mappers>
 
 </configuration>

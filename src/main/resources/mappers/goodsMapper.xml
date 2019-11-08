@@ -54,9 +54,27 @@
         delete from goods where goods_id=#{id}
     </delete>
 
+
+    
+    <insert id="addGoodsPic" parameterType="goodspic">
+        insert into goodspic values (null,#{goodspic},#{goodsid},#{adddate},#{fm})
+    </insert>
+    <update id="updateGoodsPic" parameterType="goodspic">
+        update goodspic set goodspic=#{goodspic},goodsid=#{goodsid},adddate=#{adddate},fm=#{fm}
+    </update>
+    <delete id="delGoodsPic" parameterType="int">
+        delete from goodspic where id=#{id}
+    </delete>
+    <select id="querySome" parameterType="int" resultType="goodspic">
+        select * from goodspic where goodsid=#{goodsid}
+    </select>
+
+
+
     <delete id="delgoods" parameterType="int">
         delete from goods where goods_id=#{id}
     </delete>
+    
     <insert id="addCa" parameterType="category">
         insert  into category values (null,#{title},#{pid},#{introduce},#{introduce})
     </insert>
@@ -64,8 +82,7 @@
     <update id="updateCa" keyProperty="category">
         update category set title=#{title} pid=#{pid},introduce=#{introduce} introduce=#{introduce} where id=#{id}
     </update>
-
-
+    
     <select id="queryCa"  resultType="category">
         select * from category
     </select>
