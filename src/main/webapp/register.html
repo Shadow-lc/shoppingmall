@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>注册</title>
+    <link rel="shortcut icon" href="img/etoak_logo.png">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+
+    <style>
+        body{
+            background-image: url("img/bg2.jpg");
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+
+
+               <img class="logo-name" src="img/etoak_logo.png" alt="" style="border-radius: 165px;width: 130px">
+
+
+            </div>
+            <h3>欢迎注册</h3>
+            <p>创建一个新账户</p>
+            <form class="m-t" role="form" action="register.action" id="myForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="username" name="username" autocomplete="off" placeholder="请输入用户名" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="userpass" class="form-control" placeholder="请输入密码" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="repass" id="repass" class="form-control" placeholder="请再次输入密码" required="">
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" id="phone" class="form-control" placeholder="请填写手机号" required="">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="请填写邮箱地址" required="">
+                </div>
+                <div class="form-group text-left">
+                    <div class="checkbox i-checks">
+                        <label class="no-padding">
+                            <input name="agree" type="checkbox"><i style="color: white">我同意注册协议</i> </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">注 册</button>
+
+                <p class="text-muted text-center"><small>已经有账户了？</small><a href="login.html">点此登录</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/plugins/validate/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            let icon = "<i class='fa fa-times-circle'></i>";
+            jQuery.validator.addMethod("checkName", function(value, element, param) {
+                let rex = /^[a-zA-Z]{1}[\w]+$/;
+                return rex.test(value);
+            }, $.validator.format(icon + "用户名只能使用字母数字下划线，并且英文开头"));
+            jQuery.validator.addMethod("checkPhone", function(value, element, param) {
+                let rex = /^1[3456789]\d{9}$/;
+                return rex.test(value);
+            }, $.validator.format(icon + "请输入正确的11位手机号"));
+
+            $("#myForm").validate({
+                rules: {
+                    username: {
+                        required: true,
+                        checkName: true,
+                        minlength: 5,
+                        maxlength: 12,
+                        remote: {
+                            url: "queryUserName.action",     //后台处理程序
+                            type: "post",               //数据发送方式
+                            dataType: "json",           //接受数据格式
+                            data: {                     //要传递的数据
+                                username: function() {
+                                    return $("#username").val();
+                                }
+                            }
+                        }
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 16
+                    },
+                    repass: {
+                        required: true,
+                        equalTo: "#userpass",
+                        minlength: 6,
+                        maxlength: 16
+                    },
+                    phone: {
+                        required: true,
+                        checkPhone: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                },
+                messages: {
+                    username: {
+                        required: icon + "请输入您的用户名",
+                        minlength: icon + "用户名必须5-12个字符",
+                        maxlength: icon + "用户名必须5-12个字符",
+                        remote: icon + "用户名不可用"
+                    },
+                    password: {
+                        required: icon + "请输入您的密码",
+                        minlength: icon + "密码必须6-16个字符",
+                        maxlength: icon + "密码必须6-16个字符"
+                    },
+                    repass: {
+                        required: icon + "请再次输入密码",
+                        equalTo: icon + "两次输入的密码不一致",
+                        minlength: icon + "密码必须6-16个字符",
+                        maxlength: icon + "密码必须6-16个字符"
+                    },
+                    email: {
+                        required: icon + "请输入您的E-mail",
+                        email: icon + "请输入正确的E-mail"
+                    },
+                    phone: {
+                        required: icon + "请输入您的手机号"
+                    },
+                    agree: {
+                        required: icon + "必须同意协议后才能注册",
+                        element: '#agree-error'
+                    }
+                }
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>
