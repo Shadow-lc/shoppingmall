@@ -5,7 +5,7 @@ import com.yisen.shoppingmall.commons.page.Page;
 
 public class MyUtil {
     private MyUtil() {}
-
+//111
     public static void setPage(Page page, PageInfo info) {
         page.setPageNumber(info.getPageNum());
         page.setPageSize(info.getPageSize());
