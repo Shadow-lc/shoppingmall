@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yisen.shoppingmall.showgoods.goods.mapper.GoodsMapper">
-    <insert id="addGoods" parameterType="goods" useGeneratedKeys="true" keyProperty="goods_id">
-       <!-- <selectKey keyProperty="id" resultType="int" order="AFTER">
-              select  last_insert_id()
-        </selectKey>-->
-        insert into goods values (#{goods_id},#{goods_no},#{goods_name},#{goods_typeNo},#{goods_desc},#{goods_img},#{goods_price},#{goods_qty},#{goods_discount})
+    <insert id="addGoods" parameterType="goods">
+        <selectKey keyProperty="goods_id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into goods values (null,#{goods_no},#{goods_name},#{goods_typeNo},#{goods_desc},#{goods_price},#{goods_qty},#{goods_discount})
     </insert>
     <update id="updateGoods" parameterType="goods">
         update goods set goods_no=#{goods_no},goods_name=#{goods_name},goods_typeNo=#{goods_typeNo},
@@ -26,7 +26,7 @@
             <result column="pid" property="pid"  />
             <result column="introduce" property="introduce" />
         </association>
-        <association property="pic" javaType="goodstype">
+        <association property="goodspic" javaType="goodspic">
             <id column="picid" property="id"></id>
             <result column="goodspic" property="goodspic"></result>
             <result column="goodsid" property="goodsid"></result>
@@ -38,7 +38,7 @@
         select g.goods_id,g.goods_no,g.goods_name,g.goods_typeNo,g.goods_desc,g.goods_price,g.goods_qty,
         ca.id as caid ,ca.title,ca.pid,ca.introduce,
         gp.id as picid,gp.goodspic,gp.goodsid,gp.adddate,gp.fm
-        from goods g left join category ca  on gt.goodstype_parentType=g.goods_typeNo
+        from goods g left join category ca  on ca.id=g.goods_typeNo
         left join goodspic gp on gp.goodsid=g.goods_id
         <where>
             <if test="name!=null and name!=''">
@@ -55,7 +55,7 @@
     </delete>
 
 
-    
+
     <insert id="addGoodsPic" parameterType="goodspic">
         insert into goodspic values (null,#{goodspic},#{goodsid},#{adddate},#{fm})
     </insert>
@@ -69,12 +69,14 @@
         select * from goodspic where goodsid=#{goodsid}
     </select>
 
-
+    <select id="queryCountByCategoryId" resultType="int">
+        SELECT count(*) FROM goods WHERE goods_typeNo=#{goods_typeNo}
+    </select>
 
     <delete id="delgoods" parameterType="int">
         delete from goods where goods_id=#{id}
     </delete>
-    
+
     <insert id="addCa" parameterType="category">
         insert  into category values (null,#{title},#{pid},#{introduce},#{introduce})
     </insert>
@@ -82,7 +84,7 @@
     <update id="updateCa" keyProperty="category">
         update category set title=#{title} pid=#{pid},introduce=#{introduce} introduce=#{introduce} where id=#{id}
     </update>
-    
+
     <select id="queryCa"  resultType="category">
         select * from category
     </select>

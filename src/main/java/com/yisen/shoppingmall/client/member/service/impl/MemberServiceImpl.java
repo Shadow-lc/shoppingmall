@@ -7,15 +7,16 @@ import com.yisen.shoppingmall.commons.factory.Factory;
 import org.apache.ibatis.session.SqlSession;
 
 public class MemberServiceImpl implements MemberService {
-    private SqlSession session;
 
     public MemberServiceImpl() {
-        session = Factory.getSession();
+
     }
 
     @Override
     public Member queryNickAndPassword(String nick, String password) {
+        SqlSession session = null;
         try {
+            session = Factory.getSession();
             MemberMapper dao = session.getMapper(MemberMapper.class);
             return dao.queryNameandPass(nick, password);
         } catch (Exception e) {

@@ -9,15 +9,16 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public class CategoryServiceImpl implements CategoryService {
-    private SqlSession session;
 
     public CategoryServiceImpl() {
-        session = Factory.getSession();
+
     }
 
     @Override
     public List<Category> queryCategorys() {
+        SqlSession session = null;
         try {
+            session = Factory.getSession();
             GoodsMapper dao = session.getMapper(GoodsMapper.class);
             List<Category> categories = dao.queryChildren(-1);
             for (Category category : categories) {
@@ -36,7 +37,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> queryParent() {
+        SqlSession session = null;
         try {
+            session = Factory.getSession();
             GoodsMapper dao = session.getMapper(GoodsMapper.class);
             return dao.queryChildren(-1);
         } catch (Exception e) {

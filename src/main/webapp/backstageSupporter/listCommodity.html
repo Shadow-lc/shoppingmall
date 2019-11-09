@@ -136,8 +136,9 @@
                         title:'商品图片',
                         field:'goodspic.goodspic',
                         formatter:function(value,row,index){
-                            value = `<img src="${row.savepath}" alt="404图片有自己的想法" style="width: 50px;height: 40px;">`;
-                            return value;
+
+                            let image = `<img src="${value}" alt="404图片有自己的想法" style="width: 50px;height: 40px;">`;
+                            return image;
                         }
                     }, {
                         title:'商品名称',

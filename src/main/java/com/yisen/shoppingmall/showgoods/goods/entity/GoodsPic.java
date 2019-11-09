@@ -5,7 +5,7 @@ public class GoodsPic {
     private String goodspic;
     private int goodsid;
     private String adddate;
-    private  String fm;
+    private String fm;
 
     public String getFm() {
         return fm;

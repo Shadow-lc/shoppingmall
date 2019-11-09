@@ -13,9 +13,11 @@ public interface GoodsMapper {
 
     int updateGoods(Goods goods);
 
-    List<Goods> querySome(GoodsVo vo);
+    List<Goods> queryAll(GoodsVo vo);
 
     int delGoods(@Param("id") int id);
+
+    int queryCountByCategoryId(@Param("goods_typeNo") int goods_typeNo);
 
     int addGoodsPic(GoodsPic pic);
     int delGoodsPic(GoodsPic pic);

@@ -3,6 +3,8 @@ package com.yisen.shoppingmall.showgoods.goods.entity;
 import com.yisen.shoppingmall.showgoods.goods.entity.Category;
 import com.yisen.shoppingmall.showgoods.goods.entity.GoodsPic;
 
+import java.math.BigDecimal;
+
 public class Goods {
     private Integer goods_id;
     private  String goods_no;
@@ -73,6 +75,8 @@ public class Goods {
     }
 
     public double getDiscountPrice() {
+        BigDecimal bd = new BigDecimal(goods_price * goods_discount);
+        discountPrice = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return discountPrice;
     }
 

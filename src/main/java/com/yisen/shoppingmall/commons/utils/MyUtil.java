@@ -30,7 +30,7 @@ public class MyUtil {
     }
 
     public static String creatOrdersNumber() {
-        String head = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
+        String head = getCurrentDate();
         return head + createRandomCode();
     }
 
@@ -41,5 +41,9 @@ public class MyUtil {
             code.append(str.charAt((int) (Math.random() * str.length())));
         }
         return code.toString();
+    }
+
+    public static String getCurrentDate() {
+        return new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
     }
 }

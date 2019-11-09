@@ -10,7 +10,7 @@ public class ShipAddress {
     private String adress;
     private String zipcode;
     private String telno;
-    private  String isDefault;
+    private String isDefault;
     private ShipArea shipArea;
     private Member member;
 

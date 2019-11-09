@@ -10,5 +10,8 @@
                 <param name="root">goodsPage</param>
             </result>
         </action>
+        <action name="addCommodity" class="com.yisen.shoppingmall.showgoods.goods.web.GoodsAction" method="addGoods">
+            <result name="add_success" type="redirect">/backstageSupporter/addCommodity.html</result>
+        </action>
     </package>
 </struts>
