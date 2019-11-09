@@ -25,7 +25,7 @@
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
             <legend>添加商品信息</legend>
         </fieldset>
-        <form class="form-horizontal" role="form" id="myForm" onsubmit="return sub()" action="addCategory.action">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data" role="form" id="myForm" onsubmit="return sub()" action="addCategory.action">
             <input type="hidden" name="category" id="category">
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label" >商品名称:</label>
@@ -63,7 +63,7 @@
             <div class="form-group">
                 <label for="stock" class="col-sm-2 control-label" >折 扣 价:</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control" name="discount" class="form-control"
+                    <input type="text" class="form-control" name="discount" class="form-control"
                            id="discount" autocomplete="off" required
                            placeholder="请填写折扣" style="width: 600px">
                 </div>
@@ -95,7 +95,7 @@
                 $("#pics").append("<div class='form-group'>" +
                     "<label for='pics' class='col-sm-2 control-label'>请选择：</label>" +
                     "<div class='col-sm-4'>" +
-                    "<input type='file' name='pic' class='form-control' required>" +
+                    "<input type='file' name='pic' class='form-control' required accept='image/jpeg,image/png,image/gif'>" +
                     " </div>" +
                     " <label for='pics' class='col-sm-2 control-label'>是否是封面：</label>" +
                     " <div class='col-sm-4'>" +
@@ -162,6 +162,13 @@
             }
 
             function sub(){
+
+                let val1 = $("#discount").val();
+                let reg = /^(0(\.\d{1,2})?|1(\.0{1,2})?)$/;
+                if(!reg.test(val1)){
+                    alert("请定义正确的折扣，如98折 == 0.98");
+                    return false;
+                }
                 let val = $("#category").val();
                 if(val === ''){
                     alert("请选择商品类别");
